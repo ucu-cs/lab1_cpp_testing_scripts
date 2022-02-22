@@ -262,9 +262,13 @@ def var_5_check_output(input_file_lines):
         print("Error while reading output file. It is of wrong format...")
         return False
 
-    if output_lines_count != len(input_file_lines) or not math.isclose(output_avg_lines_len,
+    # Check two different values cause the length of a line could encounter the \n or no
+    if output_lines_count != len(input_file_lines) or (not math.isclose(output_avg_lines_len,
                                                                        sum(map(len, map(str, input_file_lines))) / len(
-                                                                           input_file_lines), abs_tol=0.001):
+                                                                           input_file_lines), abs_tol=0.001) and 
+                                                       not math.isclose(output_avg_lines_len,
+                                                                       sum(map(lambda l: len(l) - 1, map(str, input_file_lines))) / len(
+                                                                           input_file_lines), abs_tol=0.001)):
         print(
             f"Wrong output file. \nInput file: {''.join(input_file_lines)}\nOutput lines count: {output_lines_count}\nOutput average line length: {output_avg_lines_len}")
         print(
