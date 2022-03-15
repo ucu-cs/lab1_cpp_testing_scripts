@@ -40,7 +40,7 @@ class Test:
                 tests_passed = False
 
         print("Testing output...")
-        for method_number in range(1, 10):
+        for method_number in range(1, 20):
             print(f"Testing method {method_number}...")
             if os.path.exists(OUTPUT_FILE_NAME):
                 os.remove(OUTPUT_FILE_NAME)
@@ -89,7 +89,7 @@ def test_wrong_arguments_error(binary_filename) -> bool:
 def test_wrong_method_number(binary_filename) -> bool:
     print("Testing with wrong method number...")
     try:
-        for method_n in (10, 100, 1000):
+        for method_n in (30, 100, 1000):
             error_code = subprocess.call([binary_filename, str(method_n), INPUT_FILE_NAME, OUTPUT_FILE_NAME],
                                          stderr=subprocess.PIPE, stdout=subprocess.PIPE)
             if error_code != WRONG_METHOD_NUMBER:
@@ -227,17 +227,16 @@ def var_3_check_output(input_numbers):
         print("Error while reading output file. It is of wrong format...")
         return False
 
-    if output_len_sum != sum(map(len, map(str, input_numbers))) or not math.isclose(output_avg_len, sum(map(len,
-                                                                                                            map(str,
-                                                                                                                input_numbers))) / len(
-        input_numbers), abs_tol=0.001):
+    proper_len_sum = sum(map(len, map(str, input_numbers)))
+    proper_avg_len = proper_len_sum / len(input_numbers)
+
+    if output_len_sum != proper_len_sum or not math.isclose(output_avg_len, proper_avg_len, abs_tol=0.001):
         print(
-            f"Wrong output file. \nInput numbers: {' '.join(map(str, input_numbers))}\nOutput length sum: {output_sum}\nOutput average length: {output_avg}")
+            f"Wrong output file. \nInput numbers: {' '.join(map(str, input_numbers))}\nOutput length sum: {output_len_sum}\nOutput average length: {output_avg_len}")
         print(
-            f"Proper values:\nLengths sum: {sum(map(len, map(str, input_numbers)))}\nAverage length: {sum(map(len, map(str, input_numbers))) / len(input_numbers)}")
+            f"Proper values:\nLengths sum: {proper_len_sum}\nAverage length: {proper_avg_len}")
         return False
     return True
-
 
 # ================================= End of variant 3 functions =================================
 
