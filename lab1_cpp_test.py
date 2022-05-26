@@ -298,7 +298,7 @@ def var_6_check_output(input_file_lines):
         words += line.split()
 
     mean = sum(map(len, words)) / len(words)
-    variance = sum(map((lambda x: (x - mean) ** 2), words)) / len(words)
+    variance = sum(map((lambda word: (len(word) - mean) ** 2), words)) / len(words)
 
     if not math.isclose(output_length_mean, mean, abs_tol=0.001) or not math.isclose(output_length_variance, variance,
                                                                                      abs_tol=0.001):
